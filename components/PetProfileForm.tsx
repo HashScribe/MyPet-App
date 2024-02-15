@@ -1,17 +1,86 @@
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { Formik } from "formik";
-import { useState } from "react";
-import { Alert, Image, ScrollView, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Modal,
+} from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
-import { addDoc, collection, db, firebase } from "../config/index";
+import {
+  addDoc,
+  collection,
+  db,
+  firebase,
+  doc,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+} from "../config/index";
 import Colors from "../constants/Colors";
 import FontSize from "../constants/FontSize";
 import Spacing from "../constants/Spacing";
+import { useRoute, RouteProp } from "@react-navigation/native";
+import OwnerSelectionModal from "./OwnerSelectionModal";
 
 const PetProfileForm = ({ navigation }: any) => {
   const [image, setImage] = useState<string>("");
   const [uploading, setUploading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const route = useRoute<any>();
+  const owner = route?.params;
+
+  const [lastAddedOwnerName, setLastAddedOwnerName] = useState<string>("");
+
+  useEffect(() => {
+    console.log("From PetProfileForm: ", owner?.isOwner);
+    if (!owner?.isOwner) {
+      return;
+    }
+
+    const fetchLastAddedOwner = async () => {
+      try {
+        const ownerQuery = query(
+          collection(db, "owner"),
+          orderBy("createdAt", "desc"),
+          limit(1)
+        );
+        const querySnapshot = await getDocs(ownerQuery);
+        if (!querySnapshot.empty) {
+          const lastAddedOwnerData = querySnapshot.docs[0].data();
+          const addedOwnerName = lastAddedOwnerData.Full_Name;
+          setLastAddedOwnerName(addedOwnerName);
+          console.log("Last added owner fetched:", lastAddedOwnerData);
+        } else {
+          console.log("No owner documents found.");
+        }
+      } catch (error) {
+        console.error("Error fetching last added owner:", error);
+      }
+    };
+
+    (async () => await fetchLastAddedOwner())();
+  }, [owner?.isOwner]);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const handleOwnerSelection = (isExistingOwner: boolean) => {
+    if (isExistingOwner) {
+      navigation.navigate("AllOwner");
+    } else {
+      navigation.navigate("OwnerProfileForm");
+    }
+
+    setIsModalVisible(false);
+  };
 
   const pickImage = async () => {
     let result: any = await ImagePicker.launchImageLibraryAsync({
@@ -78,24 +147,25 @@ const PetProfileForm = ({ navigation }: any) => {
     }
   };
 
+  const selectedOwner = route?.params?.selectedOwner;
   const handlePress = async (values: any) => {
     try {
-      let imageUrl = ""; // Initialize imageUrl
+      let imageUrl = "";
 
-      // Upload image and get download URL
       if (image) {
         imageUrl = await uploadMedia();
       }
 
-      // Add pet profile with imageUrl
-      await addPetProfile({ ...values, image: imageUrl });
+      await addPetProfile({ ...values, image: imageUrl, lastAddedOwnerName });
 
       navigation.navigate("PetProfile", {
         petDetails: values,
         image,
+        lastAddedOwnerName,
+        selectedOwner,
       });
     } catch (error) {
-      console.log("handlePress Error", error);
+      console.log(error);
     }
   };
 
@@ -203,6 +273,27 @@ const PetProfileForm = ({ navigation }: any) => {
                   label="identificationNumber"
                   onChangeText={props.handleChange("identificationNumber")}
                 />
+
+                <TouchableOpacity onPress={toggleModal}>
+                  <Button mode="outlined">Pet Owner</Button>
+                </TouchableOpacity>
+
+                <Text variant="bodyLarge">
+                  Owner Name: {lastAddedOwnerName || "" || selectedOwner}
+                </Text>
+
+                <Modal
+                  visible={isModalVisible}
+                  animationType="slide"
+                  transparent={true}
+                  onRequestClose={toggleModal}
+                >
+                  <OwnerSelectionModal
+                    onSelect={(isExistingOwner: boolean) =>
+                      handleOwnerSelection(isExistingOwner)
+                    }
+                  />
+                </Modal>
 
                 <View
                   style={{
