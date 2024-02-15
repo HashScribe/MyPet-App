@@ -57,7 +57,7 @@ const HomePage = ({ navigation }: any) => {
         </View>
         <View>
           <TouchableOpacity
-            onPress={() => navigation.navigate("QRCodeScanner")}
+            onPress={() => navigation.navigate("PetProfileForm")}
             style={{
               backgroundColor: Colors.primary,
               borderRadius: Spacing,

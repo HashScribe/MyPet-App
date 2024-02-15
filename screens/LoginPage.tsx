@@ -82,12 +82,6 @@ const LoginPage: React.FC<{}> = ({ navigation }: any) => {
               marginTop: Spacing * 4,
             }}
           >
-            {/* <AppTextInput
-            placeholder="Email"
-            value={userName}
-            onChangeText={(userName) => setUserName(userName)}
-          />
-          <AppTextInput placeholder="Password" secureTextEntry /> */}
             <KeyboardAvoidingView behavior="padding">
               <Formik
                 initialValues={{
@@ -95,7 +89,6 @@ const LoginPage: React.FC<{}> = ({ navigation }: any) => {
                   password: "",
                 }}
                 onSubmit={(values) => {
-                  // Navigate to HomePage and pass parameters
                   navigation.navigate("HomePage", {
                     email: values.email,
                   });
