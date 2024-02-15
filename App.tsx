@@ -45,6 +45,7 @@ export default function App() {
 
         <Stack.Screen name="PetProfileForm" component={PetProfileForm} />
         <Stack.Screen name="PetProfile" component={PetProfile} />
+        <Stack.Screen name="QRCodeScanner" component={QRCodeScannerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
