@@ -1,0 +1,49 @@
+import { SafeAreaView } from "react-native";
+import { WelcomePage } from "./screens/WelcomePage";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { LoginPage } from "./screens/LoginPage";
+// import RegisterPage from "./screens/RegisterPage";
+import background from "./constants/Colors";
+import HomePage from "./screens/HomePage";
+// import PetProfifleForm from "./components/PetProfifleForm";
+// import PetProfile from "./screens/PetProfile";
+import QRCodeScannerScreen from "./components/QRCodeScannerScreen";
+import { useEffect, useState } from "react";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH } from "./config";
+
+const Stack = createNativeStackNavigator();
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: background.background,
+  },
+};
+
+export default function App() {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      console.log("user", user);
+      setUser(user);
+    });
+  }, []);
+
+  return (
+    <NavigationContainer theme={MyTheme}>
+      <Stack.Navigator initialRouteName="WelcomePage">
+        {user ? (
+          <Stack.Screen name="HomePage" component={HomePage} />
+        ) : (
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+        )}
+
+        <Stack.Screen name="WelcomePage" component={WelcomePage} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
