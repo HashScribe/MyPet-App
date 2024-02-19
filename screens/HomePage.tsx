@@ -5,6 +5,7 @@ import FontSize from "../constants/FontSize";
 import Spacing from "../constants/Spacing";
 import { FIREBASE_AUTH, collection, db, doc, getDoc } from "../config";
 import QRCodeScannerScreen from "../components/QRCodeScannerScreen";
+import { PetCard } from "../components/PetCard";
 
 const HomePage = ({ navigation }: any) => {
   const handleLogout = async () => {
@@ -20,14 +21,18 @@ const HomePage = ({ navigation }: any) => {
   //const petDocSnapshot =  getDoc(petDocRef);
 
   return (
-    <SafeAreaView style={{ height: "100%" }}>
+    <SafeAreaView
+      style={{
+        height: "100%",
+        padding: -Spacing * 3.5,
+      }}
+    >
       <View
         style={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-around",
-          height: Spacing * 8,
         }}
       >
         <View>
@@ -118,6 +123,9 @@ const HomePage = ({ navigation }: any) => {
             </Text>
           </TouchableOpacity>
         </View>
+      </View>
+      <View>
+        <PetCard />
       </View>
     </SafeAreaView>
   );

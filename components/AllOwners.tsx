@@ -48,7 +48,10 @@ const AllOwners = ({ navigation }: any) => {
         </DataTable.Header>
         {isLoading && <Text variant="displaySmall">Loading Owners....</Text>}
         {owners.map((owner: any) => (
-          <TouchableOpacity onPress={() => handleOwnerClick(owner.name)}>
+          <TouchableOpacity
+            onPress={() => handleOwnerClick(owner.name)}
+            key={owner.id}
+          >
             <DataTable.Row key={owner.id}>
               <DataTable.Cell
                 style={{ display: "flex", justifyContent: "center" }}
