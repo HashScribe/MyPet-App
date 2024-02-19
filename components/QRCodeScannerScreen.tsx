@@ -22,21 +22,25 @@ const QRCodeScannerScreen = ({ navigation }: any) => {
     setScanned(true);
 
     try {
-      // Fetch pet details from Firestore using the scanned ID
       const petDocRef = doc(collection(db, "pet"), data);
       const petDocSnapshot = await getDoc(petDocRef);
 
       if (petDocSnapshot.exists()) {
         const petDetails = petDocSnapshot.data();
-        // Navigate to the PetProfile screen with the fetched details
-        navigation.navigate("PetProfile", { petDetails });
+        const image = petDetails.image;
+        console.log(petDocRef.id);
+        navigation.navigate("PetProfile", {
+          petDetails,
+          image: image,
+          petDoc: petDocRef.id,
+        });
       } else {
         console.log("Pet not found");
-        // Handle case where the pet is not found based on the scanned ID
-        navigation.navigate("PetProfileForm");
+        console.log(petDocRef.id);
+        navigation.navigate("PetProfileForm", { petDoc: petDocRef.id });
       }
     } catch (error) {
-      console.error("Error fetching pet details:", error);
+      console.error("from QRCODE SCANNER Error fetching pet details:", error);
     }
   };
 

@@ -15,6 +15,8 @@ import { FIREBASE_AUTH } from "./config";
 import OwnerProfileForm from "./components/OwnerProfileForm";
 import OwnerProfile from "./screens/OwnerProfile";
 import AllOwners from "./components/AllOwners";
+import AddMedicalHistory from "./components/AddMedicalHistory";
+import EditMedicalHistory from "./components/EditMedicalHistory";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +53,11 @@ export default function App() {
         <Stack.Screen name="PetProfileForm" component={PetProfileForm} />
         <Stack.Screen name="PetProfile" component={PetProfile} />
         <Stack.Screen name="QRCodeScanner" component={QRCodeScannerScreen} />
+        <Stack.Screen name="AddMedicalHistory" component={AddMedicalHistory} />
+        <Stack.Screen
+          name="EditMedicalHistory"
+          component={EditMedicalHistory}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
