@@ -53,47 +53,93 @@ const PetCard = () => {
         </View>
       ) : (
         <ScrollView>
-          {petData.map(({ petName, id, breed, image, owner, species }: any) => (
-            <View
-              key={id}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                backgroundColor: "white",
-                justifyContent: "space-between",
-                paddingBottom: Spacing * 5,
-                marginBottom: Spacing * 8,
-                alignItems: "center",
-                marginHorizontal: Spacing * 5,
-                height: Spacing * 30,
-                borderRadius: Spacing * 2,
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
+          {petData.map(
+            ({
+              petName,
+              id,
+              breed,
+              image,
+              owner,
+              species,
+              color,
+              dateOfBirth,
+              identificationNumber,
+              sex,
+            }: any) => (
+              <TouchableOpacity
+                key={id}
+                onPress={() =>
+                  navigation.navigate("PetProfile", {
+                    petDetails: {
+                      petName,
+                      breed,
+                      owner,
+                      species,
+                      color,
+                      dateOfBirth,
+                      identificationNumber,
+                      sex,
+                    },
+                    image,
+                    petDoc: id,
+                  })
+                }
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    backgroundColor: "white",
+                    justifyContent: "space-between",
+                    paddingBottom: Spacing * 5,
+                    marginBottom: Spacing * 8,
+                    alignItems: "flex-start",
+                    paddingHorizontal: Spacing * 2,
+                    marginHorizontal: Spacing * 5,
+                    height: Spacing * 30,
+                    borderRadius: Spacing * 2,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
 
-                elevation: 10,
-              }}
-            >
-              <View>
-                <Image
-                  source={{ uri: image }}
-                  style={{ width: 300, height: 200 }}
-                />
-              </View>
-              <View>
-                <Text style={{ fontWeight: "bold", fontSize: Spacing * 3 }}>
-                  {petName}
-                </Text>
-                <Text style={{ fontWeight: "bold" }}>Breed: {breed}</Text>
-                <Text style={{ fontWeight: "bold" }}>Owner: {owner}</Text>
-                <Text style={{ fontWeight: "bold" }}>Species: {species}</Text>
-              </View>
-            </View>
-          ))}
+                    elevation: 10,
+                  }}
+                >
+                  <View>
+                    <Image
+                      source={{ uri: image }}
+                      style={{
+                        aspectRatio: 2 / 1,
+                        width: "100%",
+                        borderTopLeftRadius: Spacing * 2,
+                        borderTopRightRadius: Spacing * 2,
+                        marginTop: Spacing * 2,
+                      }}
+                    />
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: Spacing * 3,
+                      }}
+                    >
+                      {petName}
+                    </Text>
+                    <Text style={{ fontWeight: "bold" }}>Breed: {breed}</Text>
+                    <Text style={{ fontWeight: "bold" }}>Owner: {owner}</Text>
+                    <Text style={{ fontWeight: "bold" }}>
+                      Species: {species}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )
+          )}
         </ScrollView>
       )}
     </View>

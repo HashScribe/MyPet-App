@@ -28,10 +28,15 @@ import FontSize from "../constants/FontSize";
 import Spacing from "../constants/Spacing";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import OwnerSelectionModal from "./OwnerSelectionModal";
-import { DocumentReference } from "firebase/firestore";
+import {
+  DocumentReference,
+  Firestore,
+  Timestamp,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const PetProfileForm = ({ navigation, route }: any) => {
-  const { petDoc } = route?.params;
+  // const { petDoc } = route?.params;
 
   const [image, setImage] = useState<string>("");
   const [uploading, setUploading] = useState(false);
@@ -133,6 +138,8 @@ const PetProfileForm = ({ navigation, route }: any) => {
     }
   };
 
+  const selectedOwner = route?.params?.selectedOwner;
+
   const addPetProfile = async (values: any): Promise<DocumentReference> => {
     try {
       const docRef = await addDoc(collection(db, "pet"), {
@@ -144,6 +151,7 @@ const PetProfileForm = ({ navigation, route }: any) => {
         sex: values.sex,
         identificationNumber: values.identificationNumber,
         image: values.image, // Use the image URL here
+        owner: values.selectedOwner || values.lastAddedOwnerName,
       });
       console.log("Document written with ID: ", docRef.id);
       return docRef;
@@ -152,7 +160,7 @@ const PetProfileForm = ({ navigation, route }: any) => {
       throw e;
     }
   };
-  const selectedOwner = route?.params?.selectedOwner;
+
   const handlePress = async (values: any) => {
     try {
       let imageUrl = "";
@@ -165,6 +173,7 @@ const PetProfileForm = ({ navigation, route }: any) => {
         ...values,
         image: imageUrl,
         lastAddedOwnerName,
+        selectedOwner,
       });
       console.log("new pet id", docRef.id);
       navigation.navigate("PetProfile", {

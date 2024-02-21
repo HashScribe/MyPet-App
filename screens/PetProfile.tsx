@@ -223,6 +223,12 @@ const PetProfile = ({ route, navigation }: any) => {
                     <List.Icon icon={require("../assets/number-blocks.png")} />
                   )}
                 />
+                <List.Item
+                  title={`PET OWNER: ${petDetails.owner}`}
+                  left={() => (
+                    <List.Icon icon={require("../assets/Owner.png")} />
+                  )}
+                />
               </List.Section>
             </View>
           )}
