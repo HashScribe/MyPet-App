@@ -21,19 +21,23 @@ import {
   query,
   orderBy,
   limit,
+  getDoc,
 } from "../config/index";
 import Colors from "../constants/Colors";
 import FontSize from "../constants/FontSize";
 import Spacing from "../constants/Spacing";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import OwnerSelectionModal from "./OwnerSelectionModal";
+import { DocumentReference } from "firebase/firestore";
 
-const PetProfileForm = ({ navigation }: any) => {
+const PetProfileForm = ({ navigation, route }: any) => {
+  const { petDoc } = route?.params;
+
   const [image, setImage] = useState<string>("");
   const [uploading, setUploading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const route = useRoute<any>();
+  const routes = useRoute<any>();
   const owner = route?.params;
 
   const [lastAddedOwnerName, setLastAddedOwnerName] = useState<string>("");
@@ -129,7 +133,7 @@ const PetProfileForm = ({ navigation }: any) => {
     }
   };
 
-  const addPetProfile = async (values: any) => {
+  const addPetProfile = async (values: any): Promise<DocumentReference> => {
     try {
       const docRef = await addDoc(collection(db, "pet"), {
         petName: values.petName,
@@ -142,11 +146,12 @@ const PetProfileForm = ({ navigation }: any) => {
         image: values.image, // Use the image URL here
       });
       console.log("Document written with ID: ", docRef.id);
+      return docRef;
     } catch (e) {
       console.error("Error adding document: ", e);
+      throw e;
     }
   };
-
   const selectedOwner = route?.params?.selectedOwner;
   const handlePress = async (values: any) => {
     try {
@@ -156,13 +161,18 @@ const PetProfileForm = ({ navigation }: any) => {
         imageUrl = await uploadMedia();
       }
 
-      await addPetProfile({ ...values, image: imageUrl, lastAddedOwnerName });
-
+      const docRef = await addPetProfile({
+        ...values,
+        image: imageUrl,
+        lastAddedOwnerName,
+      });
+      console.log("new pet id", docRef.id);
       navigation.navigate("PetProfile", {
         petDetails: values,
         image,
         lastAddedOwnerName,
         selectedOwner,
+        petDoc: docRef.id,
       });
     } catch (error) {
       console.log(error);

@@ -3,7 +3,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
 import FontSize from "../constants/FontSize";
 import Spacing from "../constants/Spacing";
-import { FIREBASE_AUTH } from "../config";
+import { FIREBASE_AUTH, collection, db, doc, getDoc } from "../config";
+import QRCodeScannerScreen from "../components/QRCodeScannerScreen";
 
 const HomePage = ({ navigation }: any) => {
   const handleLogout = async () => {
@@ -14,6 +15,9 @@ const HomePage = ({ navigation }: any) => {
       console.log("Error signing out:", error.message);
     }
   };
+
+  const petDocRef = doc(collection(db, "pet"));
+  //const petDocSnapshot =  getDoc(petDocRef);
 
   return (
     <SafeAreaView style={{ height: "100%" }}>
