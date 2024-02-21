@@ -84,6 +84,36 @@ const HomePage = ({ navigation }: any) => {
             </Text>
           </TouchableOpacity>
         </View>
+
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("OwnerProfileForm")}
+            style={{
+              backgroundColor: Colors.primary,
+              borderRadius: Spacing,
+              padding: Spacing * 2,
+              shadowColor: Colors.primary,
+              shadowOffset: {
+                width: 0,
+                height: Spacing,
+              },
+              shadowOpacity: 0.3,
+              shadowRadius: Spacing,
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.onPrimary,
+                fontSize: FontSize.large,
+                display: "flex",
+                alignItems: "center",
+                paddingHorizontal: Spacing * 4,
+              }}
+            >
+              Add Owner
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );

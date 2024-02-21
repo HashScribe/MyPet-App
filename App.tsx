@@ -12,6 +12,7 @@ import QRCodeScannerScreen from "./components/QRCodeScannerScreen";
 import { useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./config";
+import OwnerProfileForm from "./components/OwnerProfileForm";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +43,7 @@ export default function App() {
           <Stack.Screen name="LoginPage" component={LoginPage} />
         )}
         <Stack.Screen name="WelcomePage" component={WelcomePage} />
-
+        <Stack.Screen name="OwnerProfileForm" component={OwnerProfileForm} />
         <Stack.Screen name="PetProfileForm" component={PetProfileForm} />
         <Stack.Screen name="PetProfile" component={PetProfile} />
         <Stack.Screen name="QRCodeScanner" component={QRCodeScannerScreen} />
