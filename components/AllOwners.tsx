@@ -32,7 +32,7 @@ const AllOwners = ({ navigation }: any) => {
     fetchAllOwners();
   }, []);
 
-  const handleOwnerClick = (ownerName: any) => {
+  const handleOwnerClick = (ownerName: string) => {
     navigation.navigate("PetProfileForm", { selectedOwner: ownerName });
   };
 
