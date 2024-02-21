@@ -6,8 +6,8 @@ import { LoginPage } from "./screens/LoginPage";
 // import RegisterPage from "./screens/RegisterPage";
 import background from "./constants/Colors";
 import HomePage from "./screens/HomePage";
-// import PetProfifleForm from "./components/PetProfifleForm";
-// import PetProfile from "./screens/PetProfile";
+import PetProfileForm from "./components/PetProfileForm";
+import PetProfile from "./screens/PetProfile";
 import QRCodeScannerScreen from "./components/QRCodeScannerScreen";
 import { useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
@@ -41,8 +41,10 @@ export default function App() {
         ) : (
           <Stack.Screen name="LoginPage" component={LoginPage} />
         )}
-
         <Stack.Screen name="WelcomePage" component={WelcomePage} />
+
+        <Stack.Screen name="PetProfileForm" component={PetProfileForm} />
+        <Stack.Screen name="PetProfile" component={PetProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

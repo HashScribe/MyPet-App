@@ -1,6 +1,6 @@
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs,query, where,doc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs,query, where,doc, setDoc,getDoc, orderBy, limit } from "firebase/firestore";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import {getDownloadURL} from 'firebase/storage';
@@ -24,5 +24,5 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-export {app, db, collection, addDoc, getFirestore, getDocs, query, where, firebase,doc, setDoc,getDownloadURL};
+export {app, db, collection, addDoc, getFirestore, getDocs, query, where, firebase,doc, setDoc,getDownloadURL, getDoc, limit,orderBy};
 export const FIREBASE_AUTH = getAuth(app);
