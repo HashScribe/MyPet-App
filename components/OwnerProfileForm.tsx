@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { Button, List, Text, TextInput } from "react-native-paper";
 import { addDoc, collection, db, firebase } from "../config/index";
@@ -161,10 +161,23 @@ const OwnerProfileForm = ({ navigation }: any) => {
             pets: [],
             createdAt: serverTimestamp(),
           }}
-          onSubmit={(values) => {
+          onSubmit={(values: any, { resetForm }) => {
             //console.log(values);
 
             handlePress(values);
+            resetForm({
+              values: {
+                Full_Name: "",
+                Address: "",
+                Emergency_Contact: "",
+                Payment_Due: "",
+                Phone_Number: "",
+                Preferred_Language: "",
+                RelationShip_to_Pet: "",
+                email: "",
+                pets: [],
+              },
+            });
           }}
         >
           {(props) => (
