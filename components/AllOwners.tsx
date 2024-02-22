@@ -15,6 +15,7 @@ const AllOwners = ({ navigation }: any) => {
         const querySnapshot = await getDocs(ownerCollection);
         if (!querySnapshot.empty) {
           const ownersData = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
             name: doc.data().Full_Name,
           }));
           setOwners(ownersData);
@@ -32,7 +33,7 @@ const AllOwners = ({ navigation }: any) => {
     fetchAllOwners();
   }, []);
 
-  const handleOwnerClick = (ownerName: string) => {
+  const handleOwnerClick = (ownerName: any) => {
     navigation.navigate("PetProfileForm", { selectedOwner: ownerName });
   };
 
