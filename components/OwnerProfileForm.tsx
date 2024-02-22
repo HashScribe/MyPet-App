@@ -191,36 +191,43 @@ const OwnerProfileForm = ({ navigation }: any) => {
               <TextInput
                 mode="outlined"
                 label="Address"
+                value={props.values.Address}
                 onChangeText={props.handleChange("Address")}
               />
               <TextInput
                 mode="outlined"
                 label="Emergency_Contact"
+                value={props.values.Emergency_Contact}
                 onChangeText={props.handleChange("Emergency_Contact")}
               />
               <TextInput
                 mode="outlined"
                 label="Payment_Due"
+                value={props.values.Payment_Due}
                 onChangeText={props.handleChange("Payment_Due")}
               />
               <TextInput
                 mode="outlined"
                 label="Phone_Number"
+                value={props.values.Phone_Number}
                 onChangeText={props.handleChange("Phone_Number")}
               />
               <TextInput
                 mode="outlined"
                 label="Preferred_Language"
+                value={props.values.Preferred_Language}
                 onChangeText={props.handleChange("Preferred_Language")}
               />
               <TextInput
                 mode="outlined"
                 label="RelationShip_to_Pet"
+                value={props.values.RelationShip_to_Pet}
                 onChangeText={props.handleChange("RelationShip_to_Pet")}
               />
               <TextInput
                 mode="outlined"
                 label="email"
+                value={props.values.email}
                 onChangeText={props.handleChange("email")}
               />
 
