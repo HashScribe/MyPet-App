@@ -31,8 +31,8 @@ const HomePage = ({ navigation }: any) => {
           style={{
             display: "flex",
             flexDirection: "row",
-            alignItems: "flex-start",
-            paddingLeft: Spacing,
+            alignItems: "center",
+            justifyContent: "space-around",
           }}
         >
           <View>
@@ -41,7 +41,6 @@ const HomePage = ({ navigation }: any) => {
               style={{
                 backgroundColor: Colors.primary,
                 padding: Spacing * 2,
-                marginTop: Spacing * 5,
                 borderRadius: Spacing,
                 shadowColor: Colors.primary,
                 shadowOffset: {
@@ -65,7 +64,7 @@ const HomePage = ({ navigation }: any) => {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* <View>
+          <View>
             <TouchableOpacity
               onPress={() => navigation.navigate("QRCodeScanner")}
               style={{
@@ -123,7 +122,7 @@ const HomePage = ({ navigation }: any) => {
                 Add Owner
               </Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
         </View>
 
         <View>

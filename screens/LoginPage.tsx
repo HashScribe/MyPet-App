@@ -48,7 +48,6 @@ const LoginPage: React.FC<{}> = ({ navigation }: any) => {
         <View
           style={{
             paddingHorizontal: Spacing * 2,
-            marginTop: Spacing * 12,
           }}
         >
           <View

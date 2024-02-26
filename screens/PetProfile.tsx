@@ -13,9 +13,7 @@ import {
   where,
   getDoc,
 } from "../config/index";
-import { Timestamp, onSnapshot } from "firebase/firestore";
-import { Avatar, Button, Card } from "react-native-paper";
-import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { onSnapshot } from "firebase/firestore";
 
 const PetProfile = ({ route, navigation }: any) => {
   const { petDetails, image, petDoc } = route?.params;
@@ -55,14 +53,6 @@ const PetProfile = ({ route, navigation }: any) => {
 
     fetchMedicalHistory();
   }, [petDoc]);
-
-  const formatDate = (timestamp: any) => {
-    if (timestamp && timestamp.toDate) {
-      const date = timestamp.toDate();
-      return date.toLocaleString(); // Adjust format as needed
-    }
-    return "Unknown Date"; // Return a default value if createdAt is null or undefined
-  };
 
   // console.log("pet id", petDoc);
   // console.log("new medical history id: ", medicalID);
@@ -116,38 +106,69 @@ const PetProfile = ({ route, navigation }: any) => {
             </View>
 
             <View>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("AddMedicalHistory", {
-                    petID: petDoc,
-                  })
-                }
-                style={{
-                  alignSelf: "flex-end",
-                  padding: Spacing * 2,
-                  backgroundColor: Colors.primary,
-                  marginVertical: Spacing * 3,
-
-                  borderRadius: Spacing,
-                  shadowColor: Colors.primary,
-                  shadowOffset: {
-                    width: 0,
-                    height: Spacing,
-                  },
-                  shadowOpacity: 0.3,
-                  shadowRadius: Spacing,
-                }}
-              >
-                <Text
+              {medicalHistory.length > 0 ? (
+                <TouchableOpacity
+                  onPress={handleEditMedicalHistory}
                   style={{
-                    color: Colors.onPrimary,
-                    textAlign: "center",
-                    fontSize: FontSize.large,
+                    alignSelf: "flex-end",
+                    padding: Spacing * 2,
+                    backgroundColor: Colors.primary,
+                    marginVertical: Spacing * 3,
+
+                    borderRadius: Spacing,
+                    shadowColor: Colors.primary,
+                    shadowOffset: {
+                      width: 0,
+                      height: Spacing,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: Spacing,
                   }}
                 >
-                  Add Medical History
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: Colors.onPrimary,
+                      textAlign: "center",
+                      fontSize: FontSize.large,
+                    }}
+                  >
+                    Edit Medical History
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("AddMedicalHistory", {
+                      petID: petDoc,
+                    })
+                  }
+                  style={{
+                    alignSelf: "flex-end",
+                    padding: Spacing * 2,
+                    backgroundColor: Colors.primary,
+                    marginVertical: Spacing * 3,
+
+                    borderRadius: Spacing,
+                    shadowColor: Colors.primary,
+                    shadowOffset: {
+                      width: 0,
+                      height: Spacing,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: Spacing,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: Colors.onPrimary,
+                      textAlign: "center",
+                      fontSize: FontSize.large,
+                    }}
+                  >
+                    Add Medical History
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           {petDetails && (
@@ -203,7 +224,7 @@ const PetProfile = ({ route, navigation }: any) => {
                   )}
                 />
                 <List.Item
-                  title={`PET OWNER: ${petDetails.owner || "No Owner"}`}
+                  title={`PET OWNER: ${petDetails.owner}`}
                   left={() => (
                     <List.Icon icon={require("../assets/Owner.png")} />
                   )}
@@ -215,79 +236,26 @@ const PetProfile = ({ route, navigation }: any) => {
             <ScrollView>
               <View
                 style={{
-                  width: Spacing * 42,
+                  backgroundColor: "aliceblue",
+                  width: Spacing * 32,
                   marginTop: Spacing * 8,
                   alignItems: "center",
                 }}
               >
                 {medicalHistory.length > 0 && (
                   <>
-                    <Text variant="displaySmall">Medical History</Text>
-                    {medicalHistory
-                      .slice()
-                      .filter((history: any) => history.createdAt)
-                      .sort((a: any, b: any) => {
-                        const timestampA = a.createdAt.toMillis();
-                        const timestampB = b.createdAt.toMillis();
-                        return timestampB - timestampA;
-                      })
-                      .map((history: any) => (
-                        <Card
-                          key={history.id}
-                          style={{
-                            width: "100%",
-                            margin: Spacing * 2,
-                            backgroundColor: "white",
-                            borderRadius: Spacing * 2,
-                            minHeight: Spacing * 24,
-                            shadowColor: "black",
-                            shadowOffset: {
-                              width: 0,
-                              height: 2,
-                            },
-                            shadowOpacity: 0.25,
-                            shadowRadius: 3.84,
-
-                            elevation: 10,
-                          }}
-                        >
-                          <Card.Content style={{ margin: Spacing }}>
-                            <Text variant="bodyMedium">
-                              <Text style={{ fontWeight: "bold" }}>
-                                Vaccination
-                              </Text>
-                              {": "} {history.vaccination}
-                            </Text>
-                            <Text
-                              variant="bodyMedium"
-                              style={{ marginVertical: Spacing * 2 }}
-                            >
-                              <Text style={{ fontWeight: "bold" }}>
-                                Description
-                              </Text>
-                              {": "}
-                              {history.description}
-                            </Text>
-                            <Text variant="bodyMedium">
-                              <Text style={{ fontWeight: "bold" }}>
-                                Fee Due
-                              </Text>
-                              {": "}
-                              {history.feeDue}
-                            </Text>
-                            <Text
-                              variant="bodyMedium"
-                              style={{ marginTop: Spacing * 2 }}
-                            >
-                              <Text style={{ fontWeight: "bold" }}>
-                                Created At
-                              </Text>
-                              {": "}
-                              {formatDate(history.createdAt)}
-                            </Text>
-                          </Card.Content>
-                        </Card>
-                      ))}
+                    <List.Subheader
+                      style={{ fontWeight: "bold", fontSize: 20 }}
+                    >
+                      Medical History
+                    </List.Subheader>
+                    {medicalHistory.map((history: any) => (
+                      <List.Item
+                        key={history.id}
+                        title={history.description}
+                        description={`Fee Due: ${history.feeDue}, Vaccination: ${history.vaccination}`}
+                      />
+                    ))}
                   </>
                 )}
               </View>

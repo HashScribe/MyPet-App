@@ -50,23 +50,11 @@ export default function App() {
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator initialRouteName="WelcomePage">
         {user ? (
-          <Stack.Screen
-            name="HomePage"
-            component={MainStackNavigator}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="HomePage" component={MainStackNavigator} />
         ) : (
-          <Stack.Screen
-            name="LoginPage"
-            component={LoginPage}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="LoginPage" component={LoginPage} />
         )}
-        <Stack.Screen
-          name="WelcomePage"
-          component={WelcomePage}
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="WelcomePage" component={WelcomePage} />
         <Stack.Screen name="OwnerProfileForm" component={OwnerProfileForm} />
         <Stack.Screen name="AllOwner" component={AllOwners} />
         <Stack.Screen name="OwnerProfile" component={OwnerProfile} />

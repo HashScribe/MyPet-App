@@ -26,7 +26,7 @@ const WelcomePage = ({ navigation }: Props) => {
   const { height } = Dimensions.get("window");
   return (
     <SafeAreaView>
-      <View style={{ marginTop: Spacing * 12 }}>
+      <View>
         <ImageBackground
           style={{
             height: height / 2.5,
