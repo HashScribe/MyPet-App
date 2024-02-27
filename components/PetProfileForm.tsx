@@ -83,8 +83,10 @@ const PetProfileForm = ({ navigation, route }: any) => {
 
   const handleOwnerSelection = (isExistingOwner: boolean) => {
     if (isExistingOwner) {
+      console.log("Alll Owner Selected");
       navigation.navigate("AllOwner");
     } else {
+      console.log("New Owner Selected");
       navigation.navigate("OwnerProfileForm");
     }
 
