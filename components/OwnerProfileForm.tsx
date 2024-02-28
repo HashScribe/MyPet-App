@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { Button, List, Text, TextInput } from "react-native-paper";
 import { addDoc, collection, db, firebase } from "../config/index";
@@ -49,7 +49,7 @@ const OwnerProfileForm = ({ navigation }: any) => {
       const ref = firebase.storage().ref().child(filename);
 
       await ref.put(blob);
-      const downloadURL = await ref.getDownloadURL();
+      const downloadURL = await ref.getDownloadURL(); // Get the download URL
       setUploading(false);
       Alert.alert("Photo Uploaded!!");
       setImage("");
@@ -161,10 +161,23 @@ const OwnerProfileForm = ({ navigation }: any) => {
             pets: [],
             createdAt: serverTimestamp(),
           }}
-          onSubmit={(values) => {
+          onSubmit={(values: any, { resetForm }) => {
             //console.log(values);
 
             handlePress(values);
+            resetForm({
+              values: {
+                Full_Name: "",
+                Address: "",
+                Emergency_Contact: "",
+                Payment_Due: "",
+                Phone_Number: "",
+                Preferred_Language: "",
+                RelationShip_to_Pet: "",
+                email: "",
+                pets: [],
+              },
+            });
           }}
         >
           {(props) => (
@@ -178,36 +191,43 @@ const OwnerProfileForm = ({ navigation }: any) => {
               <TextInput
                 mode="outlined"
                 label="Address"
+                value={props.values.Address}
                 onChangeText={props.handleChange("Address")}
               />
               <TextInput
                 mode="outlined"
                 label="Emergency_Contact"
+                value={props.values.Emergency_Contact}
                 onChangeText={props.handleChange("Emergency_Contact")}
               />
               <TextInput
                 mode="outlined"
                 label="Payment_Due"
+                value={props.values.Payment_Due}
                 onChangeText={props.handleChange("Payment_Due")}
               />
               <TextInput
                 mode="outlined"
                 label="Phone_Number"
+                value={props.values.Phone_Number}
                 onChangeText={props.handleChange("Phone_Number")}
               />
               <TextInput
                 mode="outlined"
                 label="Preferred_Language"
+                value={props.values.Preferred_Language}
                 onChangeText={props.handleChange("Preferred_Language")}
               />
               <TextInput
                 mode="outlined"
                 label="RelationShip_to_Pet"
+                value={props.values.RelationShip_to_Pet}
                 onChangeText={props.handleChange("RelationShip_to_Pet")}
               />
               <TextInput
                 mode="outlined"
                 label="email"
+                value={props.values.email}
                 onChangeText={props.handleChange("email")}
               />
 

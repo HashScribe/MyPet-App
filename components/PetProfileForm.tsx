@@ -128,7 +128,8 @@ const PetProfileForm = ({ navigation, route }: any) => {
       const ref = firebase.storage().ref().child(filename);
 
       await ref.put(blob);
-      const downloadURL = await ref.getDownloadURL(); // Get the download URL
+      const downloadURL = await ref.getDownloadURL();
+
       setUploading(false);
       Alert.alert("Photo Uploaded!!");
       setImage("");
@@ -140,7 +141,7 @@ const PetProfileForm = ({ navigation, route }: any) => {
     }
   };
 
-  const selectedOwner = route?.params?.selectedOwner;
+  const selectedOwner = route?.params?.selectedOwner || "";
 
   const addPetProfile = async (values: any): Promise<DocumentReference> => {
     try {
@@ -240,11 +241,24 @@ const PetProfileForm = ({ navigation, route }: any) => {
             species: "",
             sex: "",
             identificationNumber: "",
+            selectedOwner,
           }}
-          onSubmit={(values) => {
+          onSubmit={(values: any, { resetForm }) => {
             console.log(values);
 
             handlePress(values);
+            resetForm({
+              values: {
+                petName: "",
+                breed: "",
+                dateOfBirth: "",
+                color: "",
+                species: "",
+                sex: "",
+                identificationNumber: "",
+                selectedOwner,
+              },
+            });
           }}
         >
           {(props) => {
@@ -261,21 +275,25 @@ const PetProfileForm = ({ navigation, route }: any) => {
                 <TextInput
                   mode="outlined"
                   label="breed"
+                  value={props.values.breed}
                   onChangeText={props.handleChange("breed")}
                 />
                 <TextInput
                   mode="outlined"
                   label="dateOfBirth"
+                  value={props.values.dateOfBirth}
                   onChangeText={props.handleChange("dateOfBirth")}
                 />
                 <TextInput
                   mode="outlined"
                   label="color"
+                  value={props.values.color}
                   onChangeText={props.handleChange("color")}
                 />
                 <TextInput
                   mode="outlined"
                   label="species"
+                  value={props.values.species}
                   onChangeText={props.handleChange("species")}
                 />
                 <View style={{ marginTop: Spacing }}>
@@ -292,6 +310,7 @@ const PetProfileForm = ({ navigation, route }: any) => {
                 <TextInput
                   mode="outlined"
                   label="identificationNumber"
+                  value={props.values.identificationNumber}
                   onChangeText={props.handleChange("identificationNumber")}
                 />
 
@@ -329,8 +348,9 @@ const PetProfileForm = ({ navigation, route }: any) => {
                     mode="contained"
                     onPress={pickImage}
                     style={{ backgroundColor: Colors.primary, width: 200 }}
+                    disabled={uploading}
                   >
-                    Pick Pet Profile Picture
+                    {uploading ? "Uploading..." : "Pick Pet Profile Picture"}
                   </Button>
                 </TouchableOpacity>
                 <View>
