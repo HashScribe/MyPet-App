@@ -24,9 +24,11 @@ const PetProfile = ({ route, navigation }: any) => {
   const [medicalID, setMedicalID] = useState("");
 
   useEffect(() => {
+    console.log("PET ID: " + petDoc);
     if (!petDoc) {
       return;
     }
+
     const fetchMedicalHistory = async () => {
       try {
         const historyQuery = query(

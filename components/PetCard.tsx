@@ -19,11 +19,11 @@ const PetCard = () => {
         const pets: any = [];
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data());
-          pets.push(doc.data());
+          pets.push({ id: doc.id, ...doc.data() });
         });
         setPetData(pets);
       } catch (err) {
-        console.log("Error while fetching Pet Detaisl: ", err);
+        console.log("Error while fetching Pet Details: ", err);
       } finally {
         setIsLoading(false);
       }
@@ -31,6 +31,12 @@ const PetCard = () => {
 
     getAllPets();
   }, []);
+
+  console.log(
+    petData.map((pet: any) => {
+      return pet.id;
+    })
+  );
 
   return (
     <View
@@ -68,7 +74,8 @@ const PetCard = () => {
             }: any) => (
               <TouchableOpacity
                 key={id}
-                onPress={() =>
+                onPress={() => {
+                  console.log("Selected pet ID:", id); // Log the ID here
                   navigation.navigate("PetProfile", {
                     petDetails: {
                       petName,
@@ -82,8 +89,8 @@ const PetCard = () => {
                     },
                     image,
                     petDoc: id,
-                  })
-                }
+                  });
+                }}
               >
                 <View
                   style={{
