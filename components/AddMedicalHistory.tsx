@@ -13,6 +13,7 @@ const AddMedicalHistory = ({ navigation }: any) => {
   //const navigation = useNavigation();
   const route = useRoute();
   const { petID }: any = route.params; // Extract petID from route params
+  console.log("Received petID:", petID);
 
   const addMedicalHistory = async (values: any) => {
     try {
