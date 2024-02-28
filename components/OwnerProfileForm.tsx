@@ -49,7 +49,7 @@ const OwnerProfileForm = ({ navigation }: any) => {
       const ref = firebase.storage().ref().child(filename);
 
       await ref.put(blob);
-      const downloadURL = await ref.getDownloadURL(); // Get the download URL
+      const downloadURL = await ref.getDownloadURL();
       setUploading(false);
       Alert.alert("Photo Uploaded!!");
       setImage("");
